@@ -12,7 +12,7 @@ public class SalesForceHomePage extends ProjectSpecificMethod {
 		driver=driverObj;
 	}
 	
-	public void clickToggleBtn()
+	public SalesForceHomePage clickToggleBtn()
 	{
 		WebElement toggleElement= getElementByXPath("//div[@class='slds-icon-waffle']");
 		
@@ -21,6 +21,8 @@ public class SalesForceHomePage extends ProjectSpecificMethod {
 		WebElement viewAllElement = getElementByXPath("//button[@aria-label='View All Applications']");
 		
 		click(viewAllElement);
+		
+		return this;
 	}
 	
 	public OpportunityPage startAppLauncher()

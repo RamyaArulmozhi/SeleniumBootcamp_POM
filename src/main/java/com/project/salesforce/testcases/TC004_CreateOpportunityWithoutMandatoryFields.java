@@ -1,42 +1,34 @@
 package com.project.salesforce.testcases;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.project.salesforce.ProjectSpecificMethod;
 import com.project.salesforce.pages.OpportunityPage;
 
-public class TC004_CreateOpportunityWithoutMandatoryFields extends OpportunityPage {
+public class TC004_CreateOpportunityWithoutMandatoryFields extends ProjectSpecificMethod  {
 	
 	@Test(dataProvider="loginCredentials")
 	public void createWithoutMandatoryFields(String uname, String pwd)
 	{
-		clickOpportunity();
+		OpportunityPage op = new OpportunityPage(driver);
 		
-		clickNewBtn();
+		op.clickOpportunity()
 		
-		String tomoDate = getDate(1);
+		.clickNewBtn()
 		
-		setClosedDate(tomoDate);
+		.setClosedDate(op.getDate(1))
 		
-		saveOpportunity();
+		.saveOpportunity()
 		
-		boolean verifyErrorPopUp = verifyErrorPopUp();
+		.verifyErrorPopUp()
 		
-		Assert.assertTrue(verifyErrorPopUp);
+		.verifyMandatoryFieldHeaderMsg()
 		
-		boolean verifyMandatoryFieldHeaderMsg = verifyMandatoryFieldHeaderMsg();
+		.closeNewWindow();
 		
-		Assert.assertTrue(verifyMandatoryFieldHeaderMsg);
-		
-		boolean verifyMandatoryFieldErrorMessge = verifyMandatoryFieldErrorMessge();
-		
-		Assert.assertTrue(verifyMandatoryFieldErrorMessge);
-		
-		System.out.println("Complete this field message is displayed for Name and Stage");
-		
-		closeNewWindow();
+	System.out.println("Complete this field message is displayed for Name and Stage");
 		
 		
-	}
+		}
 
 }

@@ -4,32 +4,29 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.project.salesforce.ProjectSpecificMethod;
 import com.project.salesforce.pages.OpportunityPage;
 
-public class TC003_DeleteOpportunity extends OpportunityPage  {
+public class TC003_DeleteOpportunity extends ProjectSpecificMethod  {
 	
 	@Test(dataProvider="loginCredentials")
 	public void deleteOpportunity(String uname, String pwd) throws InterruptedException
 	{
 		String oppName="Salesforce Automation by Ramya A";
 		
-		clickOpportunity();
+		OpportunityPage op= new OpportunityPage(driver);
 		
-		SearchOpportunity(oppName);
+		op.clickOpportunity()
 		
-		WebElement rowName = findRowByName(oppName);
+		.SearchOpportunity(oppName)
 		
-		clickRowActionBtn(rowName);
+		.clickRowActionBtn(op.findRowByName(oppName))
 		
-		clickRowActionBtnDelete();
+		.clickRowActionBtnDelete()
 		
-		confirmActionDelete();
+		.confirmActionDelete()
 		
-		String toastMsgText = getToastMessage();
-		
-		String extractOppNameFromToastMsgValue = extractOppNameFromToastMsg(toastMsgText);
-		
-		Assert.assertEquals(extractOppNameFromToastMsgValue, oppName);
+		.verifyTheDeletedOpportunity(op.extractOppNameFromToastMsg(op.getToastMessage()));
 		
 		// Expected Result: Oppurtunity should be Successfully deleted
 

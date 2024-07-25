@@ -12,18 +12,22 @@ public class LoginPage extends ProjectSpecificMethod {
 		driver=driverObj;
 	}
 	
-	public void enterUsername(String uname)
+	public LoginPage enterUsername(String uname)
 	{
 		WebElement usernameEle = getElementById("username");
 		
 		sendKeys(usernameEle,uname);
+		
+		return this;
 	}
 	
-	public void enterPassword(String pwd)
+	public LoginPage enterPassword(String pwd)
 	{
 		WebElement passwordEle = getElementById("password");
 		
 		sendKeys(passwordEle,pwd);
+		
+		return this;
 	}
 	
 	public SalesForceHomePage clickLogin()
@@ -32,9 +36,7 @@ public class LoginPage extends ProjectSpecificMethod {
 		
 		click(loginEle);
 		
-		SalesForceHomePage sfhp=new SalesForceHomePage(driver);
-		
-		return sfhp;
+		return new SalesForceHomePage(driver);
 	}
 
 }

@@ -1,44 +1,40 @@
 package com.project.salesforce.testcases;
 
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import com.project.salesforce.ProjectSpecificMethod;
 import com.project.salesforce.pages.OpportunityPage;
 
-public class TC001_CreateOpportunity extends OpportunityPage {
+public class TC001_CreateOpportunity extends ProjectSpecificMethod {
 	
 	
 	@Test(dataProvider = "loginCredentials")
 	public void createOpportunity(String uname, String pwd)
 	{
+		String oppName="Salesforce Automation by Ramya A";
 		
-		clickOpportunity();
+		String stageName="Needs Analysis";
 		
-		clickNewBtn();
+		OpportunityPage op=new OpportunityPage(driver);
 		
-		enterOpportunityName("Salesforce Automation by Ramya A");
+		op.clickOpportunity()
 		
-		String oppName= getOpportunityName();
+		.clickNewBtn()
 		
-		String todayDate = getDate(0);
+		.enterOpportunityName(oppName)
 		
-		setClosedDate(todayDate);
+		 .setClosedDate(op.getDate(0))
 		
-		setStage("Needs Analysis");
+		.setStage(stageName)
 		
-		saveOpportunity();
+		.saveOpportunity()
 		
-		String toastMessageText = getToastMessage();
+		.verifyTheOpportunityCreated(op.extractOppNameFromToastMsg(op.getToastMessage()));
 		
-		String extractOppNameFromToastMsgValue= extractOppNameFromToastMsg(toastMessageText);
-		
-		Assert.assertEquals(extractOppNameFromToastMsgValue, oppName);
-		
-		System.out.println("Verified Opportunity Name, Opportunity Name matches with the Toast created");
-				
 		//Expected Result:New Opportunity should be created with name as  'Salesforce Automation by Your Name'
 				
-		System.out.println("New Opportunity is created as "+toastMessageText+ " "+"as expected");
+		System.out.println("New Opportunity is created as expected");
 		
 		
 	}

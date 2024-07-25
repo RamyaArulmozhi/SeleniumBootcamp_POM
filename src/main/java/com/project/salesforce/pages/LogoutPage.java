@@ -12,7 +12,7 @@ public class LogoutPage extends ProjectSpecificMethod {
 		driver=driverObj;
 	}
 	
-	public void logoutOfThePage()
+	public LogoutPage logoutOfThePage()
 	{
 		WebElement previouslogoutElement = getElementByXPath("//button[@class='slds-button branding-userProfile-button slds-button slds-global-actions__avatar slds-global-actions__item-action']");
 		
@@ -21,6 +21,8 @@ public class LogoutPage extends ProjectSpecificMethod {
 		WebElement logoutElement = getElementByXPath("//a[text()='Log Out']");
 		
 		click(logoutElement);
+		
+		return this;
 	}
 
 }

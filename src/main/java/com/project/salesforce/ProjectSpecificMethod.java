@@ -32,34 +32,35 @@ public class ProjectSpecificMethod extends SeleniumBase {
 	{
 		disableNotifications();
 		
+		loadProperties();
+		
 		browserInstantiate();
 		
 		browserMaximize();
 		
 		implicitWait(20);
 		
-		goToUrl("https://login.salesforce.com/");
+		goToUrl(config.getProperty("testsiteurl"));
 	}
 
 	
 	@BeforeMethod
     public void preCondition(Object[] testArgs) throws InterruptedException {
 		
-		LoginPage lp=new LoginPage(driver);
-		
-        
-        String uname = (String) testArgs[0];
+		String uname = (String) testArgs[0];
         String pwd = (String) testArgs[1];
         
-       lp.enterUsername(uname);
+        new LoginPage(driver)
+        
+       .enterUsername(uname)
        
-       lp.enterPassword(pwd);
+       .enterPassword(pwd)
        
-       SalesForceHomePage salesforceHome = lp.clickLogin();
+       .clickLogin()
        
-       salesforceHome.clickToggleBtn();
+      .clickToggleBtn()
        
-       salesforceHome.startAppLauncher();
+       .startAppLauncher();
        
        
 	}
@@ -67,9 +68,10 @@ public class ProjectSpecificMethod extends SeleniumBase {
 	@AfterMethod
 	public void postCondition()
 	{
-		LogoutPage logOut=new LogoutPage(driver);
+		new LogoutPage(driver)
 		
-		logOut.logoutOfThePage();
+		.logoutOfThePage();
+		
 	}
 	
 	

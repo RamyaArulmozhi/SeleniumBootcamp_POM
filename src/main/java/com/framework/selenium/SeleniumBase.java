@@ -1,7 +1,11 @@
 package com.framework.selenium;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
+import java.util.Properties;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -10,6 +14,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -26,6 +31,9 @@ public class SeleniumBase implements Browser, Element {
 	WebDriverWait wait;
 	
 	Actions action;
+	
+	protected Properties config;
+	 
 
 	public void disableNotifications() {
 		
@@ -34,10 +42,42 @@ public class SeleniumBase implements Browser, Element {
 		option.addArguments("--disable-notifications");
 		
 	}
+	
+	public void loadProperties()
+	{
+		config=new Properties();
+		
+		try {
+			FileInputStream fis=new FileInputStream("src/main/resources/properties/Config.properties");
+			
+			config.load(fis);
+			
+		} 
+		
+		catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	}
 
 	public void browserInstantiate() {
 		
-		driver= new ChromeDriver(option);
+		String browserProperty = config.getProperty("browser");
+		
+		if(browserProperty.equals("chrome"))
+		{
+			driver= new ChromeDriver(option);
+		}
+		else if(browserProperty.equals("edge"))
+		{
+			driver=new EdgeDriver();
+		}
+
 	}
 
 	public void browserMaximize() {

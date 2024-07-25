@@ -4,9 +4,10 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.project.salesforce.ProjectSpecificMethod;
 import com.project.salesforce.pages.OpportunityPage;
 
-public class TC002_EditOpportunity extends OpportunityPage {
+public class TC002_EditOpportunity extends ProjectSpecificMethod {
 	
 	@Test(dataProvider = "loginCredentials")
 	public void editOpportunity(String uname, String pwd) throws InterruptedException
@@ -15,44 +16,33 @@ public class TC002_EditOpportunity extends OpportunityPage {
 		
 		String stageupdate="Perception Analysis";
 		
-		clickOpportunity();
+		String dlStatus="In progress";
 		
-		SearchOpportunity(oppName);
+		OpportunityPage op=new OpportunityPage(driver);
 		
+		op.clickOpportunity()
 		
-		WebElement rowName = findRowByName(oppName);
+		.SearchOpportunity(oppName)
 		
-		clickRowActionBtn(rowName);
+		.clickRowActionBtn(op.findRowByName(oppName))
 		
-		getStageName(rowName);
+		.clickRowActionBtnEdit()
 		
-		clickRowActionBtnEdit();
+		.clearDateField()
 		
-		clearDateField();
+		.setClosedDate(op.getDate(1))
 		
-		String tomDate=getDate(1);
+		.setStage(stageupdate)
 		
-		setClosedDate(tomDate);
+		.scrollDown()
 		
-		setStage(stageupdate);
+		.setDeliveryStatus(dlStatus)
 		
-		scrollDown();
+		.setDescription()
 		
-		setDeliveryStatus("In progress");
+		.saveOpportunity()
 		
-		setDescription();
-		
-		saveOpportunity();
-		
-		getToastMessage ();
-		
-		WebElement rowName2 = findRowByName(oppName);
-		
-		String stageName = getStageName(rowName2);
-		
-		Assert.assertEquals(stageName, stageupdate);
-		
-		System.out.println("The Stage value Perception Analysis is displayed after updating");
+		.verifyTheEditedOpportunityStageName(op.getStageName(op.findRowByName(oppName)));
 		
 		// Expected Result:The Oppurtunity is Edited Successfully
 

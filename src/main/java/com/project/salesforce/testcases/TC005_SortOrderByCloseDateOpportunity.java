@@ -1,30 +1,28 @@
 package com.project.salesforce.testcases;
 
 import java.text.ParseException;
-import java.util.Date;
-import java.util.List;
-
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.project.salesforce.ProjectSpecificMethod;
 import com.project.salesforce.pages.OpportunityPage;
 
-public class TC005_SortOrderByCloseDateOpportunity extends OpportunityPage {
+public class TC005_SortOrderByCloseDateOpportunity extends ProjectSpecificMethod  {
 	
 	@Test(dataProvider = "loginCredentials")
+	
 	public void sortOrderByCloseDate(String uname, String pwd) throws ParseException
 	{
-		clickOpportunity();
+		OpportunityPage op=new OpportunityPage(driver);
 		
-		verifyTableView();
+		op.clickOpportunity()
 		
-		sortCloseDate();
+		.verifyTableView()
 		
-		List<Date> closeDateList = getCloseDateList();
+		.sortCloseDate()
 		
-		boolean sortedCloseDate = verifySortedCloseDate(closeDateList);
+		.verifySortedCloseDate(op.getCloseDateList());
 		
-		Assert.assertTrue(sortedCloseDate);
+		
 	}
 
 }

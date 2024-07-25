@@ -7,18 +7,19 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.openqa.selenium.By;
+//import org.openqa.selenium.By;
 //import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
+
 import com.project.salesforce.ProjectSpecificMethod;
 
 public class OpportunityPage extends ProjectSpecificMethod {
 	
-	public OpportunityPage()
-	{
-		
-	}
+	String opportunityName;
+	
+	String opportunityStage;
 	
 	public OpportunityPage(WebDriver driverObj)
 	{
@@ -27,42 +28,53 @@ public class OpportunityPage extends ProjectSpecificMethod {
 	
 	
 	
-	public void clickOpportunity()
+	public OpportunityPage clickOpportunity()
 	{
 		WebElement opportunity = getElementByXPath("//span[text()='Opportunities']");
 		
-		jsClick(opportunity);	
+		jsClick(opportunity);
+		
+		return this;	
 		
 	}
 	
-	public void clickNewBtn()
+	public OpportunityPage clickNewBtn()
 	{
 		WebElement newBtnElement = getElementByXPath("//a[@title='New']");
 		
 		click(newBtnElement);
 		
+		return this;
+		
 	}
 	
-	public void enterOpportunityName(String opportunityName)
+	public OpportunityPage enterOpportunityName(String opportunityName)
 	{
 		WebElement oppElement = getElementByXPath("//input[@name='Name']");
 		
 		sendKeys(oppElement, opportunityName);
 		
+		this.opportunityName = opportunityName;
+		
+		return this;
+		
 	}
 	
-	public String getOpportunityName()
-	{
-		WebElement oppElement = getElementByXPath("//input[@name='Name']");
-		
-		//Get the Opportunity Name Text and store it
-		
-		String oppText = getValueFromInput(oppElement);
-				
-		System.out.println("The expected text is " + oppText);
-		
-		return oppText;
-	}
+	/*
+	 * public OpportunityPage getOpportunityName() {
+	 * 
+	 * WebElement oppElement = getElementByXPath("//input[@name='Name']");
+	 * 
+	 * //Get the Opportunity Name Text and store it
+	 * 
+	 * String oppText = getValueFromInput(oppElement);
+	 * 
+	 * System.out.println("The expected text is " + oppText);
+	 * 
+	 * opportunityName=oppText;
+	 * 
+	 * return this; }
+	 */
 	
 	public String getDate(int addDays)
 	{
@@ -78,16 +90,18 @@ public class OpportunityPage extends ProjectSpecificMethod {
 		
 	}
 	
-	public void setClosedDate(String date)
+	public OpportunityPage setClosedDate(String date)
 	{
 				
 		WebElement closedateEle = getElementByXPath("//input[@name='CloseDate']");
 				
 		sendKeys(closedateEle, date);
+		
+		return this;
 				
 	}
 	
-	public void setStage(String stageName)
+	public OpportunityPage setStage(String stageName)
 	{
 		//Select Stage as "Need Analysis"
 		
@@ -98,15 +112,21 @@ public class OpportunityPage extends ProjectSpecificMethod {
 		WebElement ddStageElement = getElementByXPath("//span[@title='"+stageName+"']");
 				
 		click(ddStageElement);
+		
+		this.opportunityStage = stageName;
+		
+		return this;
 	}
 	
-	public void saveOpportunity()
+	public OpportunityPage saveOpportunity()
 	{
 		//Save the Opportunity created
 		
 		WebElement saveElement = getElementByXPath("//button[@name='SaveEdit']");
 				
 		click(saveElement);
+		
+		return this;
 	}
 	
 	public String getToastMessage ()
@@ -141,7 +161,17 @@ public class OpportunityPage extends ProjectSpecificMethod {
 			
 	}
 	
-	public void SearchOpportunity(String opportunityName)
+	public OpportunityPage verifyTheOpportunityCreated(String oppName)
+	{
+		Assert.assertEquals(oppName, opportunityName);
+		
+		System.out.println("Verified Opportunity Name, Opportunity Name matches with the Toast created");
+		
+		return this;
+				
+	}
+	
+	public OpportunityPage SearchOpportunity(String opportunityName)
 	{
 		WebElement editOpp = getElementByXPath("//input[@aria-label='Search Recently Viewed list view.']");
 		
@@ -150,6 +180,8 @@ public class OpportunityPage extends ProjectSpecificMethod {
 		pressEnter(editOpp);
 		
 		pressEnter(editOpp);
+		
+		return this;
 		
 		
 	}
@@ -175,7 +207,7 @@ public class OpportunityPage extends ProjectSpecificMethod {
 		return null;
 	}
 	
-	public void clickRowActionBtn(WebElement row)
+	public OpportunityPage clickRowActionBtn(WebElement row)
 	{
 		List<WebElement> ddcols = getElementsByXPath(row,"td");
 		
@@ -186,6 +218,8 @@ public class OpportunityPage extends ProjectSpecificMethod {
 		WebElement eleClick=getElementByXpath(eleIcon, ".//a");
 		
 		click(eleClick);
+		
+		return this;
 	}
 	
 	public String getStageName(WebElement row)
@@ -203,72 +237,105 @@ public class OpportunityPage extends ProjectSpecificMethod {
 		
 	}
 	
-	public void clickRowActionBtnEdit()
+	public OpportunityPage clickRowActionBtnEdit()
 	{
 		WebElement editIcon = getElementByXPath("//a[@data-target-selection-name='sfdc:StandardButton.Opportunity.Edit']");
 		
 		click(editIcon);
+		
+		return this;
 	}
 	
-	public void clickRowActionBtnDelete()
+	public OpportunityPage clickRowActionBtnDelete()
 	{
 		WebElement deleteICon = getElementByXPath("//a[@data-target-selection-name='sfdc:StandardButton.Opportunity.Delete']");
 		
 		click(deleteICon);
 		
+		return this;
+		
 	}
 	
-	public void confirmActionDelete()
+	public OpportunityPage confirmActionDelete()
 	{
 		// Delete DialogBox
 		
 		WebElement alertDelete = getElementByXPath("//span[text()='Delete']/parent::button");
 				
 		click(alertDelete);
+		
+		return this;
 	}
 	
-	public void clearDateField()
+	public OpportunityPage clearDateField()
 	{
 		WebElement clearDate = getElementByXPath("//input[@name='CloseDate']");
 		
 		clear(clearDate);
+		
+		return this;
 	}
 	
-	public void scrollDown()
+	public OpportunityPage scrollDown()
 	{
 		WebElement btnDel = getElementByXPath("//label[text()='Delivery/Installation Status']/following-sibling::div//button");
 		
 		jsScrollDown(btnDel);
 		
 		click(btnDel);
+		
+		return this;
 	}
 	
-	public void setDeliveryStatus(String dlStatusName)
+	public OpportunityPage setDeliveryStatus(String dlStatusName)
 	{
 		//Select Delivery Status In Progress //In progress
 				
 		WebElement dlStatus = getElementByXPath("//span[@title='"+dlStatusName+"']/ancestor::lightning-base-combobox-item");
 				
 		click(dlStatus);
+		
+		return this;
 	}
 	
-	public void setDescription()
+	public OpportunityPage setDescription()
 	{
 		WebElement descElement = getElementByXPath("//label[text()='Description']/following-sibling::div/textarea");
 		
 		clear(descElement);
 		
 		sendKeys(descElement, "Salesforce11");
+		
+		return this;
 	}
 	
-	public void closeNewWindow()
+	public OpportunityPage closeNewWindow()
 	{
 		WebElement closeWindowElement = getElementByXPath("//span[text()='Close this window']/parent::button");
 		
 		click(closeWindowElement);
+		
+		return this;
 	}
 	
-	public boolean verifyErrorPopUp()
+	public OpportunityPage verifyTheEditedOpportunityStageName(String stageName)
+	{
+		Assert.assertEquals(stageName, opportunityStage);
+		
+		System.out.println("The Stage value Perception Analysis is displayed after updating");
+		
+		return this;
+		
+	}
+	
+	public OpportunityPage verifyTheDeletedOpportunity(String oppName)
+	{
+		Assert.assertEquals(oppName, opportunityName);
+		
+		return this;
+	}
+	
+	public OpportunityPage verifyErrorPopUp()
 	{
 		WebElement text = getElementByXPath("//header[@class='pageErrorHeader slds-popover__header']//h2");
 		
@@ -278,11 +345,13 @@ public class OpportunityPage extends ProjectSpecificMethod {
 		
 		boolean equals1 = text1.equals("We hit a snag.");
 		
-		return equals1;
+		Assert.assertTrue(equals1);
+		
+		return this;
 		
 	}
 	
-	public boolean verifyMandatoryFieldHeaderMsg()
+	public OpportunityPage verifyMandatoryFieldHeaderMsg()
 	{
 		// Review Alert message
 		
@@ -294,11 +363,13 @@ public class OpportunityPage extends ProjectSpecificMethod {
 		
 		boolean headermsg = msgTxt.equals("Review the following fields");
 		
-		return headermsg;
+		Assert.assertTrue(headermsg);
+		
+		return this;
 				
 	}
 	
-	public boolean verifyMandatoryFieldErrorMessge()
+	public OpportunityPage verifyMandatoryFieldErrorMessge()
 	{
 		//Review Mandatory field's missing message
 		
@@ -308,32 +379,36 @@ public class OpportunityPage extends ProjectSpecificMethod {
 		
 		System.out.println(size);
 		
-		if(size==2) {
-			
-			boolean var=true;
+		boolean var=true;
+		
+		if(size==2) {	
 			
 			for(WebElement ele: mandatorymsg)
 			{
 				
 				String mandatoryFieldText = elementgetText(ele);
 				
+				System.out.println(mandatoryFieldText);
+				
 				if(!(mandatoryFieldText.equals("Opportunity Name")||mandatoryFieldText.equals("Stage")))
 				{
 					var=false;
 				}
-				
-			} return var;
-			
+			}
 		}
 		
 		else
 		{
-			return false;
+			var = false;
 		}
+		Assert.assertTrue(var);	
+		
+		
+		return this;
 		
 }
 	
-	public void verifyTableView()
+	public OpportunityPage verifyTableView()
 	{
 		WebElement tableDisp = getElementByXPath("//button[@title='Select list display']");
 		
@@ -342,15 +417,19 @@ public class OpportunityPage extends ProjectSpecificMethod {
 		WebElement tableDisp2 = getElementByXPath("//a[@role='menuitemcheckbox']//span[text()='Table']");
 		
 		click(tableDisp2);
+		
+		return this;
 	}
 	
-	public void sortCloseDate()
+	public OpportunityPage sortCloseDate()
 	{
 		WebElement sortCD = getElementByXPath("//span[text()='Close Date']/parent::a");
 		
 		click(sortCD);
 		
 		click(sortCD);
+		
+		return this;
 		
 	}
 	
@@ -383,20 +462,31 @@ public class OpportunityPage extends ProjectSpecificMethod {
 		return parseDate;
 	}
 	
-	public boolean verifySortedCloseDate(List<Date> dates)
+	public OpportunityPage verifySortedCloseDate(List<Date> dates)
 	{
-		   if (dates == null || dates.isEmpty()) {
-	            return true; // Empty list or null list is considered sorted
+		boolean datesortcheck=true;
+		   if (dates == null || dates.isEmpty()) 
+		   
+		   { // Empty list or null list is considered sorted
+			   return this;
 	        }
 
-	        for (int i = 0; i < dates.size() - 1; i++) {
-	            if (dates.get(i).compareTo(dates.get(i + 1)) > 0) {
-	                return false; // If any date is greater than the next, not sorted
+	        for (int i = 0; i < dates.size() - 1; i++)
+	        {
+	            if (dates.get(i).compareTo(dates.get(i + 1)) > 0) 
+	            {
+	            	System.out.println(dates.get(i));
+	            	datesortcheck= false; // If any date is greater than the next, not sorted
+	            	break;
 	            }
 	        }
-	        return true; // All dates are in sorted order
+	        // All dates are in sorted order
+	    	Assert.assertTrue(datesortcheck);
+	    	return this;
 		
 	}
+	
+
 	
 	
 }

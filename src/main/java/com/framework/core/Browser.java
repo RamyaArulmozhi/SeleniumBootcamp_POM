@@ -4,6 +4,8 @@ public interface Browser {
 	
 	void disableNotifications();
 	
+	void loadProperties();
+	
 	void browserInstantiate();
 	
 	void browserMaximize();
